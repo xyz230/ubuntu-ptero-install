@@ -2,6 +2,14 @@
 
 # Funzione per l'installazione del Pterodactyl Panel
 install_panel() {
+    # Chiedi l'IP Numerico (FQDN)
+    echo "🖥️ Inserisci l'IP numerico (FQDN) che desideri usare per il Pterodactyl Panel (esempio: 192.168.1.100):"
+    read -p "IP Numerico: " IP
+
+    # Chiedi il Last Name
+    echo "💬 Per favore, inserisci il tuo Last Name (ad esempio: admin):"
+    read -p "Last Name: " LASTNAME
+
     echo "🚀 Avvio dell'installazione di Pterodactyl Panel..."
 
     # Aggiornamento sistema
@@ -39,6 +47,7 @@ install_panel() {
     # Configurazione del Pterodactyl Panel
     cd /var/www/pterodactyl
     sudo cp .env.example .env
+    sudo sed -i "s/APP_URL=.*/APP_URL=http:\/\/$IP/" .env
     sudo php artisan key:generate
     sudo php artisan p:environment:setup
     sudo php artisan p:environment:database
@@ -51,6 +60,9 @@ install_panel() {
     sudo systemctl restart nginx
 
     echo "🎉 Pterodactyl Panel è stato installato con successo!"
+
+    # Aggiungi i dettagli per l'accesso
+    echo "Accedi al tuo Pterodactyl Panel su: http://$IP"
 }
 
 # Funzione per l'installazione di Wings
@@ -75,30 +87,30 @@ install_wings() {
 # Funzione per disinstallare Pterodactyl Panel
 uninstall_panel() {
     echo "🚨 Rimozione di Pterodactyl Panel..."
-    
+
     # Rimuove Nginx, MariaDB e le dipendenze
     sudo systemctl stop nginx
     sudo systemctl disable nginx
     sudo apt purge --auto-remove nginx mariadb-server php8.1* -y
-    
+
     # Rimuove Pterodactyl Panel
     sudo rm -rf /var/www/pterodactyl
     sudo rm /etc/nginx/sites-available/pterodactyl
     sudo rm /etc/nginx/sites-enabled/pterodactyl
-    
+
     echo "❌ Pterodactyl Panel è stato rimosso con successo!"
 }
 
 # Funzione per disinstallare Wings
 uninstall_wings() {
     echo "🚨 Rimozione di Wings..."
-    
+
     # Rimuove Wings
     sudo systemctl stop wings
     sudo systemctl disable wings
     sudo rm /usr/local/bin/wings
     sudo rm -rf /etc/pterodactyl/wings
-    
+
     echo "❌ Wings è stato rimosso con successo!"
 }
 
