@@ -103,31 +103,33 @@ uninstall_wings() {
 }
 
 # Menu di opzioni
-echo "👋 Benvenuto nello script di installazione Pterodactyl!"
-echo "Scegli un'opzione:"
-echo "1) Installare Pterodactyl Panel e Wings"
-echo "2) Disinstallare Pterodactyl Panel"
-echo "3) Disinstallare Wings"
-read -p "Scegli un'opzione (1, 2, 3): " scelta
+while true; do
+    echo "👋 Benvenuto nello script di installazione Pterodactyl!"
+    echo "Scegli un'opzione:"
+    echo "1) Installare Pterodactyl Panel e Wings"
+    echo "2) Disinstallare Pterodactyl Panel"
+    echo "3) Disinstallare Wings"
 
-case $scelta in
-    1)
-        echo "🎉 Iniziamo con l'installazione di Pterodactyl Panel e Wings..."
-        install_panel
-        read -p "Desideri installare anche Wings? (s/n): " wings_scelta
-        if [[ "$wings_scelta" == "s" || "$wings_scelta" == "S" ]]; then
+    # Chiedi all'utente di scegliere un'opzione
+    read -p "Scegli un'opzione (1, 2, 3): " scelta
+
+    case $scelta in
+        1)
+            echo "🎉 Iniziamo con l'installazione di Pterodactyl Panel e Wings..."
+            install_panel
             install_wings
-        else
-            echo "Wings non è stato installato."
-        fi
-        ;;
-    2)
-        uninstall_panel
-        ;;
-    3)
-        uninstall_wings
-        ;;
-    *)
-        echo "⚠️ Scelta non valida, esco..."
-        ;;
-esac
+            break
+            ;;
+        2)
+            uninstall_panel
+            break
+            ;;
+        3)
+            uninstall_wings
+            break
+            ;;
+        *)
+            echo "⚠️ Scelta non valida! Per favore scegli 1, 2 o 3."
+            ;;
+    esac
+done
