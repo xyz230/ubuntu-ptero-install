@@ -3,13 +3,13 @@
 # Funzione per l'installazione del Pterodactyl Panel
 install_panel() {
     echo "🚀 Avvio dell'installazione di Pterodactyl Panel..."
-    
+
     # Aggiornamento sistema
     sudo apt update && sudo apt upgrade -y
-    
+
     # Installazione delle dipendenze
     sudo apt install -y curl wget unzip sudo software-properties-common
-    
+
     # Aggiungi i repository richiesti
     sudo add-apt-repository -y ppa:ondrej/php
     sudo apt update
@@ -23,7 +23,7 @@ install_panel() {
     # Installazione di Composer
     curl -sS https://getcomposer.org/installer | php
     sudo mv composer.phar /usr/local/bin/composer
-    
+
     # Creazione del database per Pterodactyl
     sudo mysql -e "CREATE DATABASE pterodactyl;"
     sudo mysql -e "CREATE USER 'pterodactyl'@'localhost' IDENTIFIED BY 'password';"
@@ -103,16 +103,16 @@ uninstall_wings() {
 }
 
 # Menu di opzioni
+clear
+echo "👋 Benvenuto nello script di installazione Pterodactyl!"
+echo "Scegli un'opzione:"
+echo "1) Installare Pterodactyl Panel e Wings"
+echo "2) Disinstallare Pterodactyl Panel"
+echo "3) Disinstallare Wings"
+
+# Chiedi all'utente di scegliere un'opzione
 while true; do
-    echo "👋 Benvenuto nello script di installazione Pterodactyl!"
-    echo "Scegli un'opzione:"
-    echo "1) Installare Pterodactyl Panel e Wings"
-    echo "2) Disinstallare Pterodactyl Panel"
-    echo "3) Disinstallare Wings"
-
-    # Chiedi all'utente di scegliere un'opzione
     read -p "Scegli un'opzione (1, 2, 3): " scelta
-
     case $scelta in
         1)
             echo "🎉 Iniziamo con l'installazione di Pterodactyl Panel e Wings..."
